@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <package name="default" extends="struts-default">
+    <action name="isPhoneAuthorized" class="it.webApi.AuthAction" method="isPhoneAuthorized">
+        <result name="success" type="stream">
+            <param name="contentType">application/json</param>
+            <param name="inputName">inputStream</param>
+        </result>
+    </action>
+    <action name="requestPhoneAuthorization" class="it.webApi.AuthAction" method="requestPhoneAuthorization">
+        <result name="success" type="stream">
+            <param name="contentType">application/json</param>
+            <param name="inputName">inputStream</param>
+        </result>
+        <result name="error" type="stream">
+            <param name="contentType">application/json</param>
+            <param name="inputName">inputStream</param>
+        </result>
+    </action>
+
+        <action name="getMobileDevicesList" class="it.webApi.AuthAction" method="getMobileDevicesList">
+            <result name="success" type="stream">
+                <param name="contentType">application/json</param>
+                <param name="inputName">inputStream</param>
+            </result>
+        </action>
+        <action name="grantAccessToDevice" class="it.webApi.AuthAction" method="grantAccessToDevice">
+            <result name="success" type="stream">
+                <param name="contentType">application/json</param>
+                <param name="inputName">inputStream</param>
+            </result>
+        </action>
+        <action name="denyAccessToDevice" class="it.webApi.AuthAction" method="denyAccessToDevice">
+            <result name="success" type="stream">
+                <param name="contentType">application/json</param>
+                <param name="inputName">inputStream</param>
+            </result>
+        </action>
+
+    </package>
+</struts>
