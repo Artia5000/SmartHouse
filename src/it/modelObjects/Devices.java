@@ -92,15 +92,15 @@ public class Devices {
 
     public Devices(String _uuid){
         this.authorized = 0;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+      /*  try {
+           // Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }
+        }*/
         this.uuid = _uuid;
         try{
             Connection conn = DriverManager.getConnection(url, usr, pwd);
@@ -127,16 +127,21 @@ public class Devices {
 
     public boolean requestAuth(){
         authorized = 1;
+
         if(!uuid.isEmpty() && !description.isEmpty()){
             try{
+
                 Connection conn = DriverManager.getConnection(url, usr, pwd);
+
+
                 PreparedStatement pStmt;
                 String query = "INSERT INTO auth_devices (description, uuid, granted, timestamp) VALUES (?,?,?,CURRENT_TIMESTAMP )";
+
                 pStmt = conn.prepareStatement(query);
                 pStmt.setString(1, description);
                 pStmt.setString(2, uuid);
                 pStmt.setInt(3, authorized);
-
+                pStmt.executeUpdate();
                 conn.close();
                 return true;
             } catch (Exception e) {

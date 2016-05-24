@@ -65,12 +65,15 @@ private String description;
 
     public String requestPhoneAuthorization() throws Exception{
         Devices dev = new Devices(uuid);
+        JSONObject obj = new JSONObject();
         dev.setDescription(description);
         if(dev.requestAuth()) {
-            inputStream = new ByteArrayInputStream("OK".toString().getBytes());
+            obj.put("response","OK");
+            inputStream = new ByteArrayInputStream(obj.toString().getBytes());
             return "success";
         }else{
-            inputStream = new ByteArrayInputStream("ERROR".toString().getBytes());
+            obj.put("response","ERROR");
+            inputStream = new ByteArrayInputStream(obj.toString().getBytes());
             return "error";
         }
     }
@@ -80,9 +83,11 @@ private String description;
 
         ArrayList<Devices> list = new Devices().getAllDevices();
         JSONArray jlist = new JSONArray();
-        JSONObject tmp = new JSONObject();
+
 
         for(int i=0;i<list.size();i++){
+            JSONObject tmp = new JSONObject();
+
             Devices dev = list.get(i);
             tmp.put("idDevice",dev.getId());
             tmp.put("description",dev.getDescription());
