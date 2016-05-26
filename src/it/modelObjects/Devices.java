@@ -41,7 +41,7 @@ public class Devices {
     public ArrayList<Devices> getAllDevices(){
         ArrayList<Devices> list = new ArrayList<Devices>();
         try{
-            Connection conn = DriverManager.getConnection(url, usr, pwd);
+            Connection conn = DriverManager.getConnection(url, usr,pwd);
             PreparedStatement pStmt;
             String query = "SELECT * FROM auth_devices";
             pStmt = conn.prepareStatement(query);
@@ -72,7 +72,7 @@ public class Devices {
 
     private String url = "jdbc:mysql://localhost:3306/smarthome";
     private String usr = "root";
-    private String pwd = "password";
+    private String pwd = "";
 
     public Integer getAuthorized() {
         return authorized;
@@ -112,11 +112,62 @@ public class Devices {
             ResultSet rs = pStmt.executeQuery();
             while(rs.next()){
                 authorized = rs.getInt("granted");
+                description = rs.getString("description");
             }
             conn.close();
 
         } catch (Exception e) {
             System.out.println("Errore di connessione: " + e.getMessage());
+        }
+    }
+
+    public boolean grantAccess(){
+        authorized = 2;
+
+        if(!uuid.isEmpty() && !description.isEmpty()){
+            try{
+
+                Connection conn = DriverManager.getConnection(url, usr, pwd);
+                PreparedStatement pStmt;
+                String query = "UPDATE auth_devices SET granted = ?, timestamp = CURRENT_TIMESTAMP WHERE uuid = ?";
+
+                pStmt = conn.prepareStatement(query);
+                pStmt.setInt(1, authorized);
+                pStmt.setString(2,uuid);
+                pStmt.executeUpdate();
+                conn.close();
+                return true;
+            } catch (Exception e) {
+                System.out.println("Errore di connessione: " + e.getMessage());
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    public boolean denyAccess(){
+        authorized = 0;
+
+        if(!uuid.isEmpty() && !description.isEmpty()){
+            try{
+
+                Connection conn = DriverManager.getConnection(url, usr, pwd);
+                PreparedStatement pStmt;
+                String query = "UPDATE auth_devices SET granted = ?, timestamp = CURRENT_TIMESTAMP WHERE uuid = ?";
+
+                pStmt = conn.prepareStatement(query);
+                pStmt.setInt(1, authorized);
+                pStmt.setString(2,uuid);
+                pStmt.executeUpdate();
+                conn.close();
+                return true;
+            } catch (Exception e) {
+                System.out.println("Errore di connessione: " + e.getMessage());
+                return false;
+            }
+        }else{
+            return false;
         }
     }
 

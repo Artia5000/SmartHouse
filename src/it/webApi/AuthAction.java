@@ -103,13 +103,33 @@ private String description;
     }
 
     public String grantAccessToDevice(){
+        JSONObject obj = new JSONObject();
+        Devices dev = new Devices(uuid);
+        if(dev.grantAccess()){
+            obj.put("response","OK");
+            inputStream = new ByteArrayInputStream(obj.toString().getBytes());
+            return "success";
+        }else{
+            obj.put("response","ERROR");
+            inputStream = new ByteArrayInputStream(obj.toString().getBytes());
+            return "error";
+        }
 
-        return "success";
     }
 
     public String denyAccessToDevice(){
+        JSONObject obj = new JSONObject();
+        Devices dev = new Devices(uuid);
+        if(dev.denyAccess()){
+            obj.put("response","OK");
+            inputStream = new ByteArrayInputStream(obj.toString().getBytes());
+            return "success";
+        }else{
+            obj.put("response","ERROR");
+            inputStream = new ByteArrayInputStream(obj.toString().getBytes());
+            return "error";
+        }
 
-        return "success";
     }
 
 

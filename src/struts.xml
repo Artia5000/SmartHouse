@@ -41,6 +41,12 @@
                 <param name="inputName">inputStream</param>
             </result>
         </action>
+        <action name="getSensorInfos" class="it.webApi.SensorAction" method="getSensorInfo">
+            <result name="success" type="stream">
+                <param name="contentType">application/json</param>
+                <param name="inputName">inputStream</param>
+            </result>
+        </action>
 
     </package>
 </struts>
